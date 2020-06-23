@@ -51,6 +51,7 @@ from openedx.core.djangoapps.video_pipeline.config.waffle import (
     ENABLE_VEM_PIPELINE,
     waffle_flags
 )
+from openedx.core.djangoapps.video_pipeline.models import VEMPipelineIntegration
 from openedx.core.djangoapps.waffle_utils.models import WaffleFlagCourseOverrideModel
 from openedx.core.djangoapps.waffle_utils.testutils import override_waffle_flag
 from xmodule.modulestore.tests.factories import CourseFactory
@@ -505,7 +506,47 @@ class VideosHandlerTestCase(VideoUploadTestMixin, CourseTestCase):
     def test_enable_vem_pipeline(self, mock_conn, mock_key):
         """
         Test that if VEM pipeline is enabled, objects are uploaded to the correct s3 bucket
+        even if course_hash_value is bigger than vem_enabled_courses_percentage.
         """
+        files = [{'file_name': 'first.mp4', 'content_type': 'video/mp4'}]
+        mock_key_instances = [
+            Mock(
+                generate_url=Mock(
+                    return_value='http://example.com/url_{}'.format(file_info['file_name'])
+                )
+            )
+            for file_info in files
+        ]
+        mock_key.side_effect = mock_key_instances
+
+        response = self.client.post(
+            self.url,
+            json.dumps({'files': files}),
+            content_type='application/json'
+        )
+
+        self.assertEqual(response.status_code, 200)
+        mock_conn.return_value.get_bucket.assert_called_once_with(
+            settings.VIDEO_UPLOAD_PIPELINE['VEM_S3_BUCKET'], validate=False  # pylint: disable=unsubscriptable-object
+        )
+
+    @patch('contentstore.views.videos.get_course_hash_value', Mock(return_value=50))
+    @patch('boto.s3.key.Key')
+    @patch('boto.s3.connection.S3Connection')
+    def test_send_course_to_vem_pipeline(self, mock_conn, mock_key):
+        """
+        Test that if course hash value lies under the VEM config `vem_enabled_courses_percentage`
+        value, then video for that course is uploaded to VEM.
+        """
+        vem_pipeline_integration_defaults = {
+            'enabled': True,
+            'api_url': 'https://video-encode-manager.example.com/api/v1/',
+            'service_username': 'vem_pipeline_service_user',
+            'client_name': 'vem_pipeline',
+            'vem_enabled_courses_percentage': 100
+        }
+        VEMPipelineIntegration.objects.create(**vem_pipeline_integration_defaults)
+
         files = [{'file_name': 'first.mp4', 'content_type': 'video/mp4'}]
         mock_key_instances = [
             Mock(
