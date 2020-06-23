@@ -76,6 +76,9 @@ def update_3rd_party_transcription_service_credentials(**credentials_payload):
     veda_pipeline_integration = VideoPipelineIntegration.current()
 
     if vem_pipeline_integration.enabled:
+        log.info('Sending transcript credentials to VEM for org: {} and provider: {}'.format(
+            credentials_payload.get('org'), credentials_payload.get('provider')
+        ))
         error_response, is_updated = send_transcript_credentials(vem_pipeline_integration, credentials_payload)
         # If credentials update fail for VEM, return proper error message and discontinue to
         # send credentials to VEDA because we are going to try it next time anyway
@@ -83,6 +86,9 @@ def update_3rd_party_transcription_service_credentials(**credentials_payload):
             return error_response, is_updated
 
     if veda_pipeline_integration.enabled:
+        log.info('Sending transcript credentials to VEDA for org: {} and provider: {}'.format(
+            credentials_payload.get('org'), credentials_payload.get('provider')
+        ))
         error_response, is_updated = send_transcript_credentials(veda_pipeline_integration, credentials_payload)
 
     return error_response, is_updated

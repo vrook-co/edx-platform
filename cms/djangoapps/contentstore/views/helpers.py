@@ -295,7 +295,7 @@ def is_item_in_course_tree(item):
 
 def get_course_hash_value(course_key):
     """
-    Returns a hash key for the course key.
+    Returns a hash value for the given course key.
 
     If course key is None, function returns an out of bound value which will
     never satisfy the vem_enabled_courses_percentage condition
