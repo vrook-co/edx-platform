@@ -575,7 +575,7 @@ class VideosHandlerTestCase(VideoUploadTestMixin, CourseTestCase):
     def test_vem_pipeline_integration_not_enabled(self, mock_conn, mock_key):
         """
         Test that if VEMPipelineIntegration is not enabled and course override waffle flag is not
-        set to True, the course goes to VEDA bucket.
+        set to True, the video goes to VEDA bucket.
         """
         vem_pipeline_integration_defaults = {
             'enabled': False, 'vem_enabled_courses_percentage': 100
