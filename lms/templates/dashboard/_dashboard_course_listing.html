@@ -451,7 +451,14 @@ from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_
               </p>
               <div class="action-upgrade-container">
                 % if use_ecommerce_payment_flow and course_mode_info['verified_sku']:
-                  <a class="action action-upgrade" href="${ecommerce_payment_page}?sku=${course_mode_info['verified_sku']}">
+
+                <%block name="requirejs">
+                <%static:require_module module_name="js/commerce/track_ecommerce_events" class_name="TrackECommerceEvents">
+                </%static:require_module>
+                </%block>
+
+                % require_module "js/commerce/track_ecommerce_events"
+                  <a class="action action-upgrade" href="#" onclick="TrackECommerceEvents.trackUpsellClick('bogus_event', { linkName: 'cheetos'});">
                 % else:
                   <a class="action action-upgrade" href="${reverse('verify_student_upgrade_and_verify', kwargs={'course_id': six.text_type(course_overview.id)})}" data-course-id="${course_overview.id}" data-user="${user.username}">
                 % endif
