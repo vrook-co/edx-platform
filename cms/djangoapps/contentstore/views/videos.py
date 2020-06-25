@@ -837,6 +837,7 @@ def storage_service_bucket(course_key=None):
     # meaning it would need ListObjects on the whole bucket, not just the path used in each
     # environment (since we share a single bucket for multiple deployments in some configurations)
     if vem_override or allow_course_to_use_vem:
+        LOGGER.info('Uploading course: {} to VEM bucket.'.format(course_key))
         return conn.get_bucket(settings.VIDEO_UPLOAD_PIPELINE['VEM_S3_BUCKET'], validate=False)
     else:
         return conn.get_bucket(settings.VIDEO_UPLOAD_PIPELINE['BUCKET'], validate=False)

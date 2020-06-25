@@ -531,9 +531,10 @@ class VideosHandlerTestCase(VideoUploadTestMixin, CourseTestCase):
         )
 
     @patch('contentstore.views.videos.get_course_hash_value', Mock(return_value=50))
+    @patch('contentstore.views.videos.LOGGER')
     @patch('boto.s3.key.Key')
     @patch('boto.s3.connection.S3Connection')
-    def test_send_course_to_vem_pipeline(self, mock_conn, mock_key):
+    def test_send_course_to_vem_pipeline(self, mock_conn, mock_key, mock_logger):
         """
         Test that if course hash value lies under the VEM config `vem_enabled_courses_percentage`
         value, then video for that course is uploaded to VEM.
@@ -568,6 +569,7 @@ class VideosHandlerTestCase(VideoUploadTestMixin, CourseTestCase):
         mock_conn.return_value.get_bucket.assert_called_once_with(
             settings.VIDEO_UPLOAD_PIPELINE['VEM_S3_BUCKET'], validate=False  # pylint: disable=unsubscriptable-object
         )
+        mock_logger.info.assert_called_with('Uploading course: {} to VEM bucket.'.format(self.course.id))
 
     @patch('contentstore.views.videos.get_course_hash_value', Mock(return_value=50))
     @patch('boto.s3.key.Key')
