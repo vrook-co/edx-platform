@@ -212,9 +212,11 @@ define([
                 expect(view.$('.new-post-btn.is-hidden').length).toEqual(0);
             });
 
-            it('shows New Post button when user is a staff member', function() {
+            it('shows New Post button when user is a staff member or admin', function() {
                 var requests = AjaxHelpers.requests(this),
-                    view = createTeamProfileView(requests, {userInfo: TeamSpecHelpers.createMockUserInfo({staff: true})});
+                    view = createTeamProfileView(
+                        requests, {userInfo: TeamSpecHelpers.createMockUserInfo({staff: true})}
+                    );
 
                 view.render();
                 expect(view.$('.btn-link.new-post-btn.is-hidden').length).toEqual(0);
