@@ -1109,6 +1109,7 @@ TRANSLATORS_GUIDE = 'https://edx.readthedocs.org/projects/edx-developer-guide/en
 # years). This is only used if DEFAULT_FILE_STORAGE is overriden to use S3
 # in the global settings.py
 AWS_QUERYSTRING_EXPIRE = 10 * 365 * 24 * 60 * 60  # 10 years
+AWS_S3_HOST = 's3.ap-south-1.amazonaws.com'
 
 ################################# SIMPLEWIKI ###################################
 SIMPLE_WIKI_REQUIRE_LOGIN_EDIT = True
