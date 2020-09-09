@@ -1,5 +1,6 @@
 from .models import ExtraInfo
 from django.forms import ModelForm
+from django.forms.widgets import CheckboxSelectMultiple
 
 class ExtraInfoForm(ModelForm):
     """
@@ -13,7 +14,7 @@ class ExtraInfoForm(ModelForm):
             "invalid": u"Sorry, you may have entered a non-existent branch.",
         }
 
-        self.fields['enrollment_year'].error_messages = {
+        self.fields['year'].error_messages = {
             "required": u"Enter your year of joining.",
             "invalid": u"Sorry, you may have entered an invalid year.",
         }
@@ -23,7 +24,7 @@ class ExtraInfoForm(ModelForm):
             "invalid": u"Sorry, you may have entered a non-existent language",
         }
 
-        self.fields['preferred_multimedia'].error_messages = {
+        self.fields['preferred_medium'].error_messages = {
             "required": u"Your preferred medium of learning.",
             "invalid": u"Sorry, you may have entered a non-existent multimedia.",
         }
@@ -33,8 +34,10 @@ class ExtraInfoForm(ModelForm):
             "invalid": u"Interests not available",
         }
 
+        #self.fields['interests'].widget = CheckboxSelectMultiple()
+        #self.fields['interests'].queryset = ExtraInfo.objects.all()
 
     class Meta(object):
         model = ExtraInfo
-        fields = ('branch', 'enrollment_year', 'preferred_language', 'preferred_multimedia', 'interests')
+        fields = ('branch', 'year', 'preferred_language', 'preferred_medium', 'interests')
 
