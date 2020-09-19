@@ -1,0 +1,4 @@
+source /edx/app/edxapp/edxapp_env
+python manage.py lms makemigrations
+/edx/bin/python.edxapp /edx/app/edxapp/edx-platform/manage.py lms migrate -- settings=production
+
