@@ -13,10 +13,10 @@ class ExtraInfo(models.Model):
     user = models.OneToOneField(USER_MODEL, null=True)
 
     branches = (
-        ('cs', 'Computer Science & Engineering'),
+        ('cs', 'Computer Science Engineering'),
         ('ec', 'Electronics & Communication Engineering'),
         ('eee', 'Electrical & Electronics Engineering'),
-        ('is', 'Information Science & Engineering'),
+        ('is', 'Information Science Engineering'),
         ('mech', 'Mechanical Engineering'),
         ('mba', 'Management Studies - MBA'),
     )
