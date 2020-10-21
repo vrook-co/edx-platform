@@ -47,6 +47,9 @@ from xmodule.modulestore.modulestore_settings import update_module_store_setting
 from xmodule.modulestore.edit_info import EditInfoMixin
 from lms.djangoapps.lms_xblock.mixin import LmsBlockMixin
 
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 ################################### FEATURES ###################################
 # The display name of the platform to be used in templates/emails/etc.
 PLATFORM_NAME = _('Your Platform Name Here')
@@ -2294,6 +2297,9 @@ INSTALLED_APPS = [
 
     # edx-drf-extensions
     'csrf.apps.CsrfAppConfig',  # Enables frontend apps to retrieve CSRF tokens.
+
+    # Sentry integration: raven app
+    'raven.contrib.django.raven_compat',
 ]
 
 ######################### CSRF #########################################
@@ -3485,3 +3491,24 @@ USER_STATE_BATCH_SIZE = 5000
 from openedx.core.djangoapps.plugins import plugin_apps, plugin_settings, constants as plugin_constants
 INSTALLED_APPS.extend(plugin_apps.get_apps(plugin_constants.ProjectType.LMS))
 plugin_settings.add_plugins(__name__, plugin_constants.ProjectType.LMS, plugin_constants.SettingsType.COMMON)
+
+# Sentry integration: raven app
+
+#RAVEN_CONFIG = {
+#    'dsn': 'https://652ed6691bb14500b2955d8bb00762c0@o464490.ingest.sentry.io/5473392',
+#}
+
+sentry_sdk.init(
+    dsn="https://652ed6691bb14500b2955d8bb00762c0@o464490.ingest.sentry.io/5473392",
+    integrations=[DjangoIntegration()],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production,
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
+

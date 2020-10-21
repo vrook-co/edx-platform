@@ -47,6 +47,10 @@ import sys
 from datetime import timedelta
 
 import lms.envs.common
+
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 # Although this module itself may not use these imported variables, other dependent modules may.
 from lms.envs.common import (
     USE_TZ, TECH_SUPPORT_EMAIL, PLATFORM_NAME, PLATFORM_DESCRIPTION, BUGS_EMAIL, DOC_STORE_CONFIG, DATA_DIR,
@@ -1174,6 +1178,9 @@ INSTALLED_APPS = [
     'openedx.features.course_duration_limits',
     'openedx.features.content_type_gating',
     'experiments',
+
+    # Sentry integration: raven app
+    'raven.contrib.django.raven_compat',
 ]
 
 
@@ -1568,3 +1575,24 @@ plugin_settings.add_plugins(__name__, plugin_constants.ProjectType.CMS, plugin_c
 # setting for the FileWrapper class used to iterate over the export file data.
 # See: https://docs.python.org/2/library/wsgiref.html#wsgiref.util.FileWrapper
 COURSE_EXPORT_DOWNLOAD_CHUNK_SIZE = 8192
+
+# Sentry integration: raven app
+
+#RAVEN_CONFIG = {
+#    'dsn': 'https://652ed6691bb14500b2955d8bb00762c0@o464490.ingest.sentry.io/5473392',
+#}
+
+sentry_sdk.init(
+    dsn="https://652ed6691bb14500b2955d8bb00762c0@o464490.ingest.sentry.io/5473392",
+    integrations=[DjangoIntegration()],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production,
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
+

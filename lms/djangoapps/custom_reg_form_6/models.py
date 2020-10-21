@@ -22,15 +22,17 @@ class ExtraInfo(models.Model):
     )
 
     years = (
-        ('1', '1st'),
-        ('2', '2nd'),
-        ('3', '3rd'),
-        ('4', '4th'),
+        ('1', '1st year'),
+        ('2', '2nd year'),
+        ('3', '3rd year'),
+        ('4', '4th year'),
     )
 
     medium = (
         ('books', 'Books'),
         ('blogs', 'Blogs'),
+        ('articles', 'Articles'),
+        ('journals', 'Journals'),
         ('images', 'Images'),
         ('videos', 'Videos'),
         ('others', 'Others'),
@@ -47,39 +49,43 @@ class ExtraInfo(models.Model):
             ('ai/ml', 'AI/ML'),
             ('iot', 'IoT'),
             ('cyber security', 'Cyber Security'),
+            ('cloud computing', 'Cloud Computing'),
+            ('robotics', 'Robotics'),
+            ('3d printing', '3D Printing'),
             ('machine drawing', 'Machine Drawing'),
             ('autonomous vehicles', 'Autonomous Vehicles'),
+            ('entrepreneurship', 'Entrepreneurship'),
             ('others', 'Others'),
     )
 
 
     branch = models.CharField(
-        verbose_name="Branch",
+        verbose_name="Department",
         choices=branches,
         max_length=100,
     )
 
     year = models.CharField(
-        verbose_name="Year",
+        verbose_name="Year of Study",
         choices=years,
         max_length=5,
     )
 
     preferred_medium = models.CharField(
-        verbose_name="Preferred Medium",
+        verbose_name="Preferred Medium of Learning",
         choices=medium,
         max_length=100,
     )
 
 
     preferred_language = models.CharField(
-        verbose_name="Preferred Language",
+        verbose_name="Preferred Medium of Language",
         choices=languages,
         max_length=100,
     )
 
     interests = models.CharField(
-        verbose_name="Your Interests",
+        verbose_name="Your Interest",
         choices=student_interests,
         max_length=100,
     )

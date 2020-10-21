@@ -364,7 +364,8 @@ class RegistrationFormFactory(object):
 
         # Translators: These instructions appear on the registration form, immediately
         # below a field meant to hold the user's email address.
-        email_instructions = _(u"This is what you will use to login.")
+        #email_instructions = _(u"This is what you will use to login.")
+        email_instructions = _(u"Ex: username@bnmit.in")
 
         form_desc.add_field(
             "email",
@@ -413,7 +414,8 @@ class RegistrationFormFactory(object):
 
         # Translators: These instructions appear on the registration form, immediately
         # below a field meant to hold the user's full name.
-        name_instructions = _(u"This name will be used on any certificates that you earn.")
+        #name_instructions = _(u"This name will be used on any certificates that you earn.")
+        name_instructions = _(u"Ex: Jane Doe")
 
         form_desc.add_field(
             "name",
@@ -439,7 +441,8 @@ class RegistrationFormFactory(object):
         username_instructions = _(
             # Translators: These instructions appear on the registration form, immediately
             # below a field meant to hold the user's public username.
-            u"The name that will identify you in your courses. "
+            #u"The name that will identify you in your courses. "
+            u"Ex: JaneDoe or jane_doe. "
             u"It cannot be changed later."
         )
         form_desc.add_field(

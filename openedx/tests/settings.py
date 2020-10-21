@@ -9,6 +9,8 @@ import sys
 import tempfile
 
 from path import Path
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 # TODO: Remove the rest of the sys.path modification here and in (cms|lms)/envs/common.py
 REPO_ROOT = Path(__file__).abspath().dirname().dirname().dirname()  # /edx-platform/
@@ -109,3 +111,18 @@ USE_TZ = True
 
 RETIREMENT_SERVICE_WORKER_USERNAME = 'RETIREMENT_SERVICE_USER'
 RETIRED_USERNAME_PREFIX = 'retired__user_'
+
+sentry_sdk.init(
+    dsn="https://652ed6691bb14500b2955d8bb00762c0@o464490.ingest.sentry.io/5473392",
+    integrations=[DjangoIntegration()],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production,
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
+
