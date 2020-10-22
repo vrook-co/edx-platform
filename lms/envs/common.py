@@ -2298,9 +2298,6 @@ INSTALLED_APPS = [
 
     # edx-drf-extensions
     'csrf.apps.CsrfAppConfig',  # Enables frontend apps to retrieve CSRF tokens.
-
-    # Sentry integration: raven app
-    'raven.contrib.django.raven_compat',
 ]
 
 ######################### CSRF #########################################
@@ -3494,10 +3491,6 @@ INSTALLED_APPS.extend(plugin_apps.get_apps(plugin_constants.ProjectType.LMS))
 plugin_settings.add_plugins(__name__, plugin_constants.ProjectType.LMS, plugin_constants.SettingsType.COMMON)
 
 # Sentry integration: raven app
-
-#RAVEN_CONFIG = {
-#    'dsn': 'https://652ed6691bb14500b2955d8bb00762c0@o464490.ingest.sentry.io/5473392',
-#}
 
 sentry_sdk.init(
     dsn="https://652ed6691bb14500b2955d8bb00762c0@o464490.ingest.sentry.io/5473392",

@@ -1178,9 +1178,6 @@ INSTALLED_APPS = [
     'openedx.features.course_duration_limits',
     'openedx.features.content_type_gating',
     'experiments',
-
-    # Sentry integration: raven app
-    'raven.contrib.django.raven_compat',
 ]
 
 
@@ -1576,12 +1573,7 @@ plugin_settings.add_plugins(__name__, plugin_constants.ProjectType.CMS, plugin_c
 # See: https://docs.python.org/2/library/wsgiref.html#wsgiref.util.FileWrapper
 COURSE_EXPORT_DOWNLOAD_CHUNK_SIZE = 8192
 
-# Sentry integration: raven app
-
-#RAVEN_CONFIG = {
-#    'dsn': 'https://652ed6691bb14500b2955d8bb00762c0@o464490.ingest.sentry.io/5473392',
-#}
-
+# Sentry integration
 sentry_sdk.init(
     dsn="https://652ed6691bb14500b2955d8bb00762c0@o464490.ingest.sentry.io/5473392",
     integrations=[DjangoIntegration()],
